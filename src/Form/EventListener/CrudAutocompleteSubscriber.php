@@ -65,7 +65,7 @@ class CrudAutocompleteSubscriber implements EventSubscriberInterface
                             /** @var FieldMapping $idFieldMapping */
                             $idFieldMapping = $options['em']->getClassMetadata($options['class'])->getFieldMapping($options['id_reader']->getIdField());
 
-                            if (UuidType::NAME === $idFieldMapping->type) {
+                            if (UuidType::NAME === $idFieldMapping['type']) {
                                 return Uuid::fromString($v)->toBinary();
                             }
                         }
