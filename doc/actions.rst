@@ -1045,7 +1045,7 @@ backends. Instead of defining it repeatedly, you can create a reusable package
     use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
     use EasyCorp\Bundle\EasyAdminBundle\Contracts\Action\ActionsExtensionInterface;
 
-    final class DuplicateActionExtension implements ActionsExtension
+    final class DuplicateActionExtension implements ActionsExtensionInterface
     {
         // return true in this method to enable the extension for
         // the current backend request
@@ -1056,7 +1056,7 @@ backends. Instead of defining it repeatedly, you can create a reusable package
 
             // enable it on all except some entities
             $entityFqcn = $context->getCrud()->getEntityFqcn();
-            return null !== $entityFqcn && !\in_array(entityFqcn, ['...'], true);
+            return null !== $entityFqcn && !\in_array($entityFqcn, ['...'], true);
 
             // or use any other admin context data to make the decision
         }
