@@ -6,7 +6,12 @@ use EasyCorp\Bundle\EasyAdminBundle\Cache\CacheWarmer;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\TextDirection;
+use EasyCorp\Bundle\EasyAdminBundle\Config\UserMenu;
 use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Context\CrudContext;
+use EasyCorp\Bundle\EasyAdminBundle\Context\DashboardContext;
+use EasyCorp\Bundle\EasyAdminBundle\Context\I18nContext;
+use EasyCorp\Bundle\EasyAdminBundle\Context\RequestContext;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\CrudControllerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\DashboardControllerInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Factory\MenuFactoryInterface;
@@ -53,6 +58,7 @@ final class AdminContextFactory
         $dashboardDto = $this->getDashboardDto($request, $dashboardController);
         $assetDto = $this->getAssetDto($dashboardController, $crudController, $pageName);
         $filters = $this->getFilters($dashboardController, $crudController);
+        $user = $this->getUser($this->tokenStorage);
 
         // build a first version of CrudDto without actions so we can create AdminContext, which is
         // needed for action extensions; later, we'll update the CrudDto object with the full action config
@@ -61,11 +67,32 @@ final class AdminContextFactory
         $searchDto = $this->getSearchDto($request, $crudDto);
         $i18nDto = $this->getI18nDto($request, $dashboardDto, $crudDto, $entityDto);
         $templateRegistry = $this->getTemplateRegistry($dashboardController, $crudDto);
-        $user = $this->getUser($this->tokenStorage);
         $usePrettyUrls = $this->adminRouteGenerator->usesPrettyUrls();
 
-        // create AdminContext (with empty actions initially)
-        $adminContext = new AdminContext($request, $user, $i18nDto, $this->crudControllers, $dashboardDto, $dashboardController, $assetDto, $crudDto, $entityDto, $searchDto, $this->menuFactory, $templateRegistry, $usePrettyUrls);
+        // build sub-contexts
+        $requestContext = new RequestContext($request, $user);
+        $crudContext = new CrudContext($crudDto, $entityDto, $searchDto, $this->crudControllers);
+        $dashboardContext = new DashboardContext($dashboardDto, $dashboardController::class, $assetDto, $usePrettyUrls);
+        $i18nContext = new I18nContext($i18nDto, $templateRegistry);
+
+        // set lazy menu builders to avoid circular dependencies
+        // (MenuFactory needs AdminContext, but we're still creating it)
+        $dashboardContext->setMainMenuBuilder(function () use ($dashboardController) {
+            $configuredMenuItems = $dashboardController->configureMenuItems();
+            $mainMenuItems = \is_array($configuredMenuItems) ? $configuredMenuItems : iterator_to_array($configuredMenuItems, false);
+
+            return $this->menuFactory->createMainMenu($mainMenuItems);
+        });
+
+        $dashboardContext->setUserMenuBuilder(function () use ($dashboardController, $user) {
+            if (null === $user) {
+                return UserMenu::new()->getAsDto();
+            }
+
+            return $this->menuFactory->createUserMenu($dashboardController->configureUserMenu($user));
+        });
+
+        $adminContext = new AdminContext($requestContext, $crudContext, $dashboardContext, $i18nContext);
 
         // build actions with extensions and update the CrudDto
         // (ActionFactory needs the full AdminContext to apply extensions)
