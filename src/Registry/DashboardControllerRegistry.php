@@ -7,27 +7,21 @@ use function Symfony\Component\String\u;
 
 final class DashboardControllerRegistry implements DashboardControllerRegistryInterface
 {
+    private bool $init = false;
     /** @var array<string, string> */
     private array $controllerFqcnToRouteMap = [];
     /** @var array<string, string> */
-    private readonly array $routeToControllerFqcnMap;
+    private array $routeToControllerFqcnMap = [];
 
     /**
      * @param string[] $controllerFqcnToContextIdMap
      * @param string[] $contextIdToControllerFqcnMap
      */
     public function __construct(
-        string $buildDir,
+        private string $buildDir,
         private readonly array $controllerFqcnToContextIdMap,
         private readonly array $contextIdToControllerFqcnMap,
     ) {
-        $dashboardRoutesCachePath = $buildDir.'/'.CacheWarmer::DASHBOARD_ROUTES_CACHE;
-        $dashboardControllerRoutes = !file_exists($dashboardRoutesCachePath) ? [] : require $dashboardRoutesCachePath;
-        foreach ($dashboardControllerRoutes as $routeName => $controller) {
-            $this->controllerFqcnToRouteMap[u($controller)->before('::')->toString()] = $routeName;
-        }
-
-        $this->routeToControllerFqcnMap = array_flip($this->controllerFqcnToRouteMap);
     }
 
     public function getControllerFqcnByContextId(string $contextId): ?string
@@ -42,11 +36,19 @@ final class DashboardControllerRegistry implements DashboardControllerRegistryIn
 
     public function getControllerFqcnByRoute(string $routeName): ?string
     {
+        if (!$this->init) {
+            $this->loadCache();
+        }
+
         return $this->routeToControllerFqcnMap[$routeName] ?? null;
     }
 
     public function getRouteByControllerFqcn(string $controllerFqcn): ?string
     {
+        if (!$this->init) {
+            $this->loadCache();
+        }
+
         return $this->controllerFqcnToRouteMap[$controllerFqcn] ?? null;
     }
 
@@ -77,5 +79,17 @@ final class DashboardControllerRegistry implements DashboardControllerRegistryIn
         }
 
         return $dashboards;
+    }
+
+    private function loadCache(): void
+    {
+        $dashboardRoutesCachePath = $this->buildDir.'/'.CacheWarmer::DASHBOARD_ROUTES_CACHE;
+        $dashboardControllerRoutes = !file_exists($dashboardRoutesCachePath) ? [] : require $dashboardRoutesCachePath;
+
+        foreach ($dashboardControllerRoutes as $routeName => $controller) {
+            $this->controllerFqcnToRouteMap[u($controller)->before('::')->toString()] = $routeName;
+        }
+
+        $this->routeToControllerFqcnMap = array_flip($this->controllerFqcnToRouteMap);
     }
 }
