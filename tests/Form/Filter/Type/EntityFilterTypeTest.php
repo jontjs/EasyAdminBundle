@@ -45,7 +45,7 @@ class EntityFilterTypeTest extends FilterTypeTest
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
