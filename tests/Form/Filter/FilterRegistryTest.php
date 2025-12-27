@@ -7,6 +7,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Form\Filter\Guesser\DoctrineOrmFilterTypeGue
 use EasyCorp\Bundle\EasyAdminBundle\Tests\Form\Filter\Fixtures\FoobarFilterType;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\Form\Filter\Fixtures\FooFilterType;
 use EasyCorp\Bundle\EasyAdminBundle\Tests\Form\Filter\Fixtures\InvalidFilterType;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\FormConfigInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\Form\FormTypeGuesserChain;
@@ -18,7 +19,7 @@ class FilterRegistryTest extends TestCase
     /** @var FilterRegistry */
     private $filterRegistry;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $typesMap = [
             'foo' => 'easyadmin.filter.type.foo',

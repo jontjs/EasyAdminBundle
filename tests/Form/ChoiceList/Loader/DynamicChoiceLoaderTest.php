@@ -3,6 +3,7 @@
 namespace EasyCorp\Bundle\EasyAdminBundle\Tests\Form\ChoiceList\Loader;
 
 use EasyCorp\Bundle\EasyAdminBundle\Form\ChoiceList\Loader\DynamicChoiceLoader;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Form\ChoiceList\ArrayChoiceList;
 use Symfony\Component\Form\ChoiceList\Loader\ChoiceLoaderInterface;
 
@@ -10,7 +11,7 @@ class DynamicChoiceLoaderTest extends TestCase
 {
     private ChoiceLoaderInterface $loader;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->loader = new DynamicChoiceLoader();
     }
