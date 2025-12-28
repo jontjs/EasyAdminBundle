@@ -2,14 +2,17 @@
 
 namespace EasyCorp\Bundle\EasyAdminBundle\Tests\Twig\Component;
 
+use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\IconSet;
-use EasyCorp\Bundle\EasyAdminBundle\Contracts\Context\AdminContextInterface;
-use EasyCorp\Bundle\EasyAdminBundle\Contracts\Provider\AdminContextProviderInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Context\DashboardContext;
 use EasyCorp\Bundle\EasyAdminBundle\Dto\AssetsDto;
 use EasyCorp\Bundle\EasyAdminBundle\Provider\AdminContextProvider;
 use EasyCorp\Bundle\EasyAdminBundle\Twig\Component\Icon;
 use PHPUnit\Framework\TestCase;
 use Symfony\Bridge\PhpUnit\ExpectDeprecationTrait;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class IconTest extends TestCase
 {
@@ -20,7 +23,7 @@ class IconTest extends TestCase
      */
     public function testGetInternalIcon(string $iconName, string $appIconSet): void
     {
-        $iconComponent = new Icon($this->getAdminContextProviderMock($appIconSet));
+        $iconComponent = new Icon($this->getAdminContextProvider($appIconSet));
         $iconComponent->name = $iconName;
         $iconDto = $iconComponent->getIcon();
 
@@ -45,7 +48,7 @@ class IconTest extends TestCase
      */
     public function testGetFontAwesomeIcon(string $iconName): void
     {
-        $iconComponent = new Icon($this->getAdminContextProviderMock(IconSet::FontAwesome));
+        $iconComponent = new Icon($this->getAdminContextProvider(IconSet::FontAwesome));
         $iconComponent->name = $iconName;
         $iconDto = $iconComponent->getIcon();
 
@@ -94,7 +97,7 @@ class IconTest extends TestCase
      */
     public function testGetCustomIcon(string $iconName): void
     {
-        $iconComponent = new Icon($this->getAdminContextProviderMock(IconSet::Custom));
+        $iconComponent = new Icon($this->getAdminContextProvider(IconSet::Custom));
         $iconComponent->name = $iconName;
         $iconDto = $iconComponent->getIcon();
 
@@ -114,24 +117,25 @@ class IconTest extends TestCase
         $this->expectException(\RuntimeException::class);
         $this->expectExceptionMessageMatches('/The icon "internal:this-does-not-exist" does not exist\. Check the icon name spelling and make sure that the "this-does-not-exist\.svg" file exists in the "assets\/icons\/internal\/ directory of EasyAdmin"\./');
 
-        $iconComponent = new Icon($this->getAdminContextProviderMock(IconSet::Internal));
+        $iconComponent = new Icon($this->getAdminContextProvider(IconSet::Internal));
         $iconComponent->name = 'internal:this-does-not-exist';
         $iconComponent->getIcon();
     }
 
-    /**
-     * @return AdminContextProvider
-     */
-    private function getAdminContextProviderMock(string $appIconSet)
+    private function getAdminContextProvider(string $appIconSet): AdminContextProvider
     {
-        $adminContextProvider = $this->getMockBuilder(AdminContextProviderInterface::class)->disableOriginalConstructor()->getMock();
-        $adminContext = $this->getMockBuilder(AdminContextInterface::class)->disableOriginalConstructor()->getMock();
         $assetsDto = new AssetsDto();
         $assetsDto->setIconSet($appIconSet);
-        $assetsDto->setDefaultIconPrefix(''); // TODO
-        $adminContext->method('getAssets')->willReturn($assetsDto);
-        $adminContextProvider->method('getContext')->willReturn($adminContext);
+        $assetsDto->setDefaultIconPrefix('');
 
-        return $adminContextProvider;
+        $adminContext = AdminContext::forTesting(
+            dashboardContext: DashboardContext::forTesting(assets: $assetsDto),
+        );
+
+        $request = new Request(attributes: [EA::CONTEXT_REQUEST_ATTRIBUTE => $adminContext]);
+        $requestStack = new RequestStack();
+        $requestStack->push($request);
+
+        return new AdminContextProvider($requestStack);
     }
 }

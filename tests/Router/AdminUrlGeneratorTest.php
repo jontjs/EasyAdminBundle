@@ -3,8 +3,11 @@
 namespace EasyCorp\Bundle\EasyAdminBundle\Tests\Router;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Action;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Option\EA;
-use EasyCorp\Bundle\EasyAdminBundle\Contracts\Context\AdminContextInterface;
+use EasyCorp\Bundle\EasyAdminBundle\Context\AdminContext;
+use EasyCorp\Bundle\EasyAdminBundle\Context\DashboardContext;
+use EasyCorp\Bundle\EasyAdminBundle\Context\RequestContext;
 use EasyCorp\Bundle\EasyAdminBundle\Contracts\Router\AdminRouteGeneratorInterface;
 use EasyCorp\Bundle\EasyAdminBundle\Provider\AdminContextProvider;
 use EasyCorp\Bundle\EasyAdminBundle\Registry\DashboardControllerRegistryInterface;
@@ -285,11 +288,14 @@ class AdminUrlGeneratorTest extends WebTestCase
     {
         self::bootKernel();
 
-        $adminContext = $this->getMockBuilder(AdminContextInterface::class)->disableOriginalConstructor()->getMock();
-        $adminContext->method('getDashboardRouteName')->willReturn('admin');
-        $adminContext->method('getSignedUrls')->willReturn($signedUrls);
-        $adminContext->method('getAbsoluteUrls')->willReturn($absoluteUrls);
-        $adminContext->method('getRequest')->willReturn(new Request(['foo' => 'bar']));
+        $dashboardDto = Dashboard::new()->getAsDto();
+        $dashboardDto->setRouteName('admin');
+        $dashboardDto->setAbsoluteUrls($absoluteUrls);
+
+        $adminContext = AdminContext::forTesting(
+            requestContext: RequestContext::forTesting(new Request(['foo' => 'bar'])),
+            dashboardContext: DashboardContext::forTesting($dashboardDto),
+        );
 
         $request = new Request(query: ['foo' => 'bar'], attributes: [EA::CONTEXT_REQUEST_ATTRIBUTE => $adminContext]);
 
