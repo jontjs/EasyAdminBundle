@@ -94,7 +94,7 @@ final class EntityPaginator implements EntityPaginatorInterface
 
     public function getLastPage(): int
     {
-        return (int) ceil($this->numResults / $this->pageSize);
+        return max(1, (int) ceil($this->numResults / $this->pageSize));
     }
 
     /**
