@@ -8,7 +8,7 @@ class EasyAdminDataCollectorTest extends WebTestCase
 {
     protected static array $options = ['environment' => 'default_backend'];
 
-    public function testCollectorIsEnabled()
+    public function testCollectorIsEnabled(): void
     {
         static::$client->enableProfiler();
         $this->requestListView();
@@ -16,7 +16,7 @@ class EasyAdminDataCollectorTest extends WebTestCase
         $this->assertNotNull(static::$client->getProfile()->getCollector('easyadmin'));
     }
 
-    public function testCollectorInformationForListView()
+    public function testCollectorInformationForListView(): void
     {
         static::$client->enableProfiler();
         $this->requestListView();
@@ -40,7 +40,7 @@ class EasyAdminDataCollectorTest extends WebTestCase
         $this->assertCount(5, $backendConfig['entities']);
     }
 
-    public function testCollectorInformationForEditView()
+    public function testCollectorInformationForEditView(): void
     {
         static::$client->enableProfiler();
         $this->requestEditView();
@@ -64,7 +64,7 @@ class EasyAdminDataCollectorTest extends WebTestCase
         $this->assertCount(5, $backendConfig['entities']);
     }
 
-    public function testCollectorReset()
+    public function testCollectorReset(): void
     {
         static::$client->enableProfiler();
         $this->requestListView();

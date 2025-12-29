@@ -16,7 +16,7 @@ use Symfony\Component\Translation\IdentityTranslator;
 class CrudFormTypeFormFormFieldTest extends TypeTestCase
 {
     /** @dataProvider formFieldFixedProvider */
-    public function testFormFieldFixed(FormField $field, array $expectedKeys)
+    public function testFormFieldFixed(FormField $field, array $expectedKeys): void
     {
         $form = $this->factory->create(CrudFormType::class, null, [
             'entityDto' => $this->getEntityDto([$field]),
@@ -27,7 +27,7 @@ class CrudFormTypeFormFormFieldTest extends TypeTestCase
         }
     }
 
-    public function formFieldFixedProvider(): \Generator
+    public static function formFieldFixedProvider(): \Generator
     {
         yield [FormField::addFieldset(propertySuffix: 'foobar'), ['ea_form_fieldset_foobar', 'ea_form_fieldset_close_foobar']];
         yield [FormField::addRow(propertySuffix: 'foobar'), ['ea_form_row_foobar']];
@@ -36,7 +36,7 @@ class CrudFormTypeFormFormFieldTest extends TypeTestCase
     }
 
     /** @dataProvider formFieldUlidProvider */
-    public function testFormFieldUlid(FormField $field, array $expectedPrefixKeys, string $expectedSuffix)
+    public function testFormFieldUlid(FormField $field, array $expectedPrefixKeys, string $expectedSuffix): void
     {
         $form = $this->factory->create(CrudFormType::class, null, [
             'entityDto' => $this->getEntityDto([$field]),
@@ -47,7 +47,7 @@ class CrudFormTypeFormFormFieldTest extends TypeTestCase
         }
     }
 
-    public function formFieldUlidProvider(): \Generator
+    public static function formFieldUlidProvider(): \Generator
     {
         yield [$field = FormField::addFieldset(), ['ea_form_fieldset_', 'ea_form_fieldset_close_'], $field->getAsDto()->getPropertyNameSuffix()];
         yield [$field = FormField::addRow(), ['ea_form_row_'], $field->getAsDto()->getPropertyNameSuffix()];

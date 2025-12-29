@@ -32,7 +32,7 @@ class ExceptionListenerTest extends TestCase
         return $event;
     }
 
-    public function testCatchBaseExceptions()
+    public function testCatchBaseExceptions(): void
     {
         $exception = new EasyEntityNotFoundException([
             'entity_name' => 'Test',
@@ -58,7 +58,7 @@ class ExceptionListenerTest extends TestCase
         return $event;
     }
 
-    public function testShouldNotCatchExceptionsWithSameName()
+    public function testShouldNotCatchExceptionsWithSameName(): void
     {
         $exception = new EntityNotFoundException();
         $event = $this->getEventExceptionThatShouldNotBeCalled($exception);

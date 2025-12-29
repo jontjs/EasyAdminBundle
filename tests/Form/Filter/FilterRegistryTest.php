@@ -31,32 +31,32 @@ class FilterRegistryTest extends TestCase
         $this->filterRegistry = new FilterRegistry($typesMap, [$typeGuesser]);
     }
 
-    public function testHasType()
+    public function testHasType(): void
     {
         $this->assertTrue($this->filterRegistry->hasType('foo'));
         $this->assertFalse($this->filterRegistry->hasType('bar'));
     }
 
-    public function testGetType()
+    public function testGetType(): void
     {
         $this->assertSame('easyadmin.filter.type.foo', $this->filterRegistry->getType('foo'));
     }
 
-    public function testGetInvalidType()
+    public function testGetInvalidType(): void
     {
         $this->setExpectedException(\Symfony\Component\Form\Exception\InvalidArgumentException::class);
 
         $this->filterRegistry->getType('bar');
     }
 
-    public function testGetTypeGuesser()
+    public function testGetTypeGuesser(): void
     {
         $typeGuesser = $this->filterRegistry->getTypeGuesser();
 
         $this->assertInstanceOf(FormTypeGuesserChain::class, $typeGuesser);
     }
 
-    public function testResolveType()
+    public function testResolveType(): void
     {
         $filterType = new FooFilterType();
         $form = $this->createFilterForm($filterType);
@@ -64,7 +64,7 @@ class FilterRegistryTest extends TestCase
         $this->assertSame($filterType, $this->filterRegistry->resolveType($form));
     }
 
-    public function testResolveTypeThroughParents()
+    public function testResolveTypeThroughParents(): void
     {
         $fooFilterType = new FooFilterType();
         $foobarFilterType = new FoobarFilterType();
@@ -73,7 +73,7 @@ class FilterRegistryTest extends TestCase
         $this->assertSame($fooFilterType, $this->filterRegistry->resolveType($form));
     }
 
-    public function testInvalidFilterType()
+    public function testInvalidFilterType(): void
     {
         $this->setExpectedException(\Symfony\Component\Form\Exception\RuntimeException::class, 'Filter type "EasyCorp\\TestBundle\\EasyAdminBundle\\Tests\\Form\\Filter\\Fixtures\\InvalidFilterType" must implement "EasyCorp\\TestBundle\\EasyAdminBundle\\Form\\Filter\\Type\\FilterInterface".');
 

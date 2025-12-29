@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class CrudContextTest extends TestCase
 {
-    public function testForTestingCreatesDefaultCrudDto()
+    public function testForTestingCreatesDefaultCrudDto(): void
     {
         $context = CrudContext::forTesting();
 

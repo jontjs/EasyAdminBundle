@@ -11,7 +11,7 @@ use PHPUnit\Framework\TestCase;
 
 class DashboardContextTest extends TestCase
 {
-    public function testMainMenuIsLazyLoaded()
+    public function testMainMenuIsLazyLoaded(): void
     {
         $builderCalled = false;
         $expectedMenu = new MainMenuDto([new MenuItemDto()]);
@@ -34,7 +34,7 @@ class DashboardContextTest extends TestCase
         self::assertSame($expectedMenu, $menu);
     }
 
-    public function testMainMenuBuilderIsCalledOnlyOnce()
+    public function testMainMenuBuilderIsCalledOnlyOnce(): void
     {
         $callCount = 0;
 
@@ -55,7 +55,7 @@ class DashboardContextTest extends TestCase
         self::assertSame(1, $callCount);
     }
 
-    public function testForTestingBypassesLazyLoading()
+    public function testForTestingBypassesLazyLoading(): void
     {
         $menu = new MainMenuDto([new MenuItemDto()]);
         $context = DashboardContext::forTesting(mainMenu: $menu);
