@@ -36,8 +36,6 @@ class ChoiceConfiguratorTest extends AbstractFieldTest
      */
     public function testSupportsField(string $fieldType, bool $expectedResult): void
     {
-        $this->checkPhpVersion();
-
         $field = new FieldDto();
         $field->setFieldFqcn($fieldType);
 
@@ -46,8 +44,6 @@ class ChoiceConfiguratorTest extends AbstractFieldTest
 
     public function testBackedEnumTypeChoices(): void
     {
-        $this->checkPhpVersion();
-
         $field = ChoiceField::new(self::PROPERTY_NAME);
         $field->getAsDto()->setDoctrineMetadata(['enumType' => StatusBackedEnum::class]);
 
@@ -61,8 +57,6 @@ class ChoiceConfiguratorTest extends AbstractFieldTest
 
     public function testBackedEnumChoices(): void
     {
-        $this->checkPhpVersion();
-
         $field = ChoiceField::new(self::PROPERTY_NAME);
         $field->setCustomOptions(['choices' => StatusBackedEnum::cases()]);
 
@@ -76,8 +70,6 @@ class ChoiceConfiguratorTest extends AbstractFieldTest
 
     public function testUnitEnumTypeChoices(): void
     {
-        $this->checkPhpVersion();
-
         $field = ChoiceField::new(self::PROPERTY_NAME);
         $field->getAsDto()->setDoctrineMetadata(['enumType' => PriorityUnitEnum::class]);
 
@@ -91,8 +83,6 @@ class ChoiceConfiguratorTest extends AbstractFieldTest
 
     public function testUnitEnumChoices(): void
     {
-        $this->checkPhpVersion();
-
         $field = ChoiceField::new(self::PROPERTY_NAME);
         $field->setCustomOptions(['choices' => PriorityUnitEnum::cases()]);
 
@@ -111,17 +101,8 @@ class ChoiceConfiguratorTest extends AbstractFieldTest
         yield [IdField::class, false];
     }
 
-    private function checkPhpVersion(): void
-    {
-        if (\PHP_VERSION_ID < 80100) {
-            $this->markTestSkipped('PHP 8.1 or higher is required to run this test.');
-        }
-    }
-
     public function testBackedEnumChoicesLabeled(): void
     {
-        $this->checkPhpVersion();
-
         $choices = [];
         foreach (StatusBackedEnum::cases() as $case) {
             $choices[$case->label()] = $case;
