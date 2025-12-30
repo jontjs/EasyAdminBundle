@@ -8,14 +8,14 @@ use Symfony\Component\HttpFoundation\Request;
 
 class RequestContextTest extends TestCase
 {
-    public function testForTestingWithDefaults()
+    public function testForTestingWithDefaults(): void
     {
         $context = RequestContext::forTesting();
 
         self::assertNull($context->getUser());
     }
 
-    public function testForTestingWithCustomRequest()
+    public function testForTestingWithCustomRequest(): void
     {
         $request = Request::create('/admin/dashboard');
 

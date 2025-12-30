@@ -56,7 +56,7 @@ class EntityFilterTypeTest extends FilterTypeTest
     /**
      * @dataProvider getDataProviderToOneAssoc
      */
-    public function testSubmitAndFilterToOneAssociationType($submittedData, $data, array $options, string $dql, array $params)
+    public function testSubmitAndFilterToOneAssociationType($submittedData, $data, array $options, string $dql, array $params): void
     {
         $entity1 = new SingleIntIdEntity(1, 'Foo');
         $entity2 = new SingleIntIdEntity(2, 'Bar');
@@ -78,7 +78,7 @@ class EntityFilterTypeTest extends FilterTypeTest
     /**
      * @dataProvider getDataProviderToManyAssoc
      */
-    public function testFilterToManyAssociationType($submittedData, $data, array $options, string $dql, array $params)
+    public function testFilterToManyAssociationType($submittedData, $data, array $options, string $dql, array $params): void
     {
         $entity1 = new SingleIntIdEntity(1, 'Foo');
         $entity2 = new SingleIntIdEntity(2, 'Bar');
@@ -207,7 +207,7 @@ class EntityFilterTypeTest extends FilterTypeTest
         ];
     }
 
-    protected function getExtensions()
+    protected function getExtensions(): array
     {
         return array_merge(parent::getExtensions(), [
             new DoctrineOrmExtension($this->emRegistry),

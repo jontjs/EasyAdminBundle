@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 
 class I18nContextTest extends TestCase
 {
-    public function testForTestingWithDefaults()
+    public function testForTestingWithDefaults(): void
     {
         $context = I18nContext::forTesting();
 
@@ -18,7 +18,7 @@ class I18nContextTest extends TestCase
         self::assertSame('messages', $i18n->getTranslationDomain());
     }
 
-    public function testForTestingWithCustomValues()
+    public function testForTestingWithCustomValues(): void
     {
         $context = I18nContext::forTesting(
             locale: 'es',

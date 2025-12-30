@@ -13,7 +13,7 @@ class AdminContextTest extends TestCase
     /**
      * @group legacy
      */
-    public function testGetReferrerEmptyString()
+    public function testGetReferrerEmptyString(): void
     {
         $request = new Request(query: [EA::REFERRER => '']);
 
@@ -24,7 +24,7 @@ class AdminContextTest extends TestCase
         self::assertNull($target->getReferrer());
     }
 
-    public function testGetEntityThrowsExceptionWhenNotInCrudContext()
+    public function testGetEntityThrowsExceptionWhenNotInCrudContext(): void
     {
         $context = AdminContext::forTesting();
 

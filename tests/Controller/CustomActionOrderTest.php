@@ -140,7 +140,7 @@ class CustomActionOrderTest extends AbstractCrudTestCase
         static::assertSame($actionsOrderInTemplate, $actionNames);
     }
 
-    public function testNewPageActionsOrder()
+    public function testNewPageActionsOrder(): void
     {
         $crawler = $this->client->request('GET', $this->generateNewFormUrl());
 

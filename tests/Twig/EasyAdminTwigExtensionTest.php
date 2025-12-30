@@ -66,7 +66,7 @@ class EasyAdminTwigExtensionTest extends KernelTestCase
         $this->assertSame($expected, $result);
     }
 
-    public function provideValuesForFileSize(): iterable
+    public static function provideValuesForFileSize(): iterable
     {
         yield [0, '0B'];
         yield [1, '1B'];
@@ -85,7 +85,7 @@ class EasyAdminTwigExtensionTest extends KernelTestCase
         yield [\PHP_INT_MAX, '8E'];
     }
 
-    public function provideValuesForRepresentAsString(): iterable
+    public static function provideValuesForRepresentAsString(): iterable
     {
         yield [null, ''];
         yield ['foo bar', 'foo bar'];

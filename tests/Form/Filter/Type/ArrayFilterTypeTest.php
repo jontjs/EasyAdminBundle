@@ -13,7 +13,7 @@ class ArrayFilterTypeTest extends FilterTypeTest
     /**
      * @dataProvider getDataProvider
      */
-    public function testSubmitAndFilter($submittedData, $data, array $options, string $dql, array $params)
+    public function testSubmitAndFilter($submittedData, $data, array $options, string $dql, array $params): void
     {
         $form = $this->factory->create(static::FILTER_TYPE, null, $options);
         $form->submit($submittedData);

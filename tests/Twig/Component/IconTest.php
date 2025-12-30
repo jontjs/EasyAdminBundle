@@ -32,7 +32,7 @@ class IconTest extends TestCase
         $this->assertStringContainsString('(Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2024 Fonticons, Inc.', $iconDto->getSvgContents());
     }
 
-    public function provideGetInternalIconData(): iterable
+    public static function provideGetInternalIconData(): iterable
     {
         // internal icons used in EasyAdmin UI; we test it with different icon sets to
         // test that the icon set is ignored for internal icons and the result is always the same
@@ -57,7 +57,7 @@ class IconTest extends TestCase
         $this->assertNull($iconDto->getSvgContents());
     }
 
-    public function provideGetFontAwesomeIconData(): iterable
+    public static function provideGetFontAwesomeIconData(): iterable
     {
         yield ['fa fa-list'];
         yield ['fa-solid fa-list'];
@@ -106,7 +106,7 @@ class IconTest extends TestCase
         $this->assertNull($iconDto->getSvgContents());
     }
 
-    public function provideGetCustomIconData(): iterable
+    public static function provideGetCustomIconData(): iterable
     {
         yield ['custom:my-icon'];
         yield ['another-custom-prefix:some-other-icon'];

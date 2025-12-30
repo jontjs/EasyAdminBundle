@@ -94,7 +94,7 @@ class ChoiceConfiguratorTest extends AbstractFieldTest
         $this->assertSame($this->configure($field)->getFormTypeOption('choices'), $expected);
     }
 
-    public function fieldTypes(): iterable
+    public static function fieldTypes(): iterable
     {
         yield [ChoiceField::class, true];
         yield [TextField::class, false];

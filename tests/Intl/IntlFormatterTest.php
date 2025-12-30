@@ -11,7 +11,7 @@ class IntlFormatterTest extends TestCase
     /**
      * @dataProvider provideFormatDate
      */
-    public function testFormatDate(?string $expectedResult, ?\DateTimeInterface $date, ?string $dateFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', ?string $locale = null)
+    public function testFormatDate(?string $expectedResult, ?\DateTimeInterface $date, ?string $dateFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', ?string $locale = null): void
     {
         if (\PHP_VERSION_ID < 80200) {
             $this->markTestSkipped('PHP 8.2 or higher is required to run this test.');
@@ -29,7 +29,7 @@ class IntlFormatterTest extends TestCase
     /**
      * @dataProvider provideFormatTime
      */
-    public function testFormatTime(?string $expectedResult, ?\DateTimeInterface $date, ?string $timeFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', ?string $locale = null, string $assertMethod = 'assertSame')
+    public function testFormatTime(?string $expectedResult, ?\DateTimeInterface $date, ?string $timeFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', ?string $locale = null, string $assertMethod = 'assertSame'): void
     {
         if (\PHP_VERSION_ID < 80200) {
             $this->markTestSkipped('PHP 8.2 or higher is required to run this test.');
@@ -47,7 +47,7 @@ class IntlFormatterTest extends TestCase
     /**
      * @dataProvider provideFormatDateTime
      */
-    public function testFormatDateTime(?string $expectedResult, ?\DateTimeInterface $date, ?string $dateFormat = 'medium', ?string $timeFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', ?string $locale = null, string $assertMethod = 'assertSame')
+    public function testFormatDateTime(?string $expectedResult, ?\DateTimeInterface $date, ?string $dateFormat = 'medium', ?string $timeFormat = 'medium', string $pattern = '', $timezone = null, string $calendar = 'gregorian', ?string $locale = null, string $assertMethod = 'assertSame'): void
     {
         if (\PHP_VERSION_ID < 80200) {
             $this->markTestSkipped('PHP 8.2 or higher is required to run this test.');
@@ -65,7 +65,7 @@ class IntlFormatterTest extends TestCase
     /**
      * @dataProvider provideFormatNumber
      */
-    public function testFormatNumber(?string $expectedResult, int|float $number, array $attrs)
+    public function testFormatNumber(?string $expectedResult, int|float $number, array $attrs): void
     {
         if (\PHP_VERSION_ID < 80200) {
             $this->markTestSkipped('PHP 8.2 or higher is required to run this test.');
@@ -82,7 +82,7 @@ class IntlFormatterTest extends TestCase
      *
      * @group legacy
      */
-    public function testLegacyFormatNumber(?string $expectedResult, int|float|null $number, array $attrs)
+    public function testLegacyFormatNumber(?string $expectedResult, int|float|null $number, array $attrs): void
     {
         if (\PHP_VERSION_ID < 80200) {
             $this->markTestSkipped('PHP 8.2 or higher is required to run this test.');
@@ -94,7 +94,7 @@ class IntlFormatterTest extends TestCase
         $this->assertSame($expectedResult, $formattedNumber);
     }
 
-    public static function provideFormatDate()
+    public static function provideFormatDate(): \Generator
     {
         yield [null, null, 'medium', '', null, 'gregorian', null];
 
@@ -121,7 +121,7 @@ class IntlFormatterTest extends TestCase
         yield ['Nov 7, 2020', new \DateTime('2020-11-07'), 'medium', '', null, 'traditional', 'en'];
     }
 
-    public static function provideFormatTime()
+    public static function provideFormatTime(): \Generator
     {
         yield [null, null, 'medium', '', null, 'gregorian', null];
 
@@ -146,7 +146,7 @@ class IntlFormatterTest extends TestCase
         yield ['/Pacific (Standard|Daylight) Time Pacific Time -0(7|8):00/', new \DateTime('15:04:05 CET'), null, 'zzzz vvvv xxxxx', new \DateTimeZone('PST'), 'gregorian', 'en', 'assertMatchesRegularExpression'];
     }
 
-    public static function provideFormatDateTime()
+    public static function provideFormatDateTime(): \Generator
     {
         yield [null, null, 'medium', 'medium', '', null, 'gregorian', null];
 
@@ -176,7 +176,7 @@ class IntlFormatterTest extends TestCase
         yield ['Nov 7, 2020, 2:04:05 PM', new \DateTime('2020-11-07 14:04:05 CET'), 'medium', 'medium', '', false, 'traditional', 'en'];
     }
 
-    public static function provideFormatNumber()
+    public static function provideFormatNumber(): \Generator
     {
         yield ['0', 0, []];
         yield ['0', 0.0, []];
@@ -192,7 +192,7 @@ class IntlFormatterTest extends TestCase
         yield ['1 234,560', 1234.56, ['fraction_digit' => 3, 'decimal_separator' => ',', 'grouping_separator' => ' ']];
     }
 
-    public static function provideLegacyFormatNumber()
+    public static function provideLegacyFormatNumber(): \Generator
     {
         yield ['0', null, []];
     }

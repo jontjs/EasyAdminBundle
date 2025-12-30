@@ -10,8 +10,7 @@ use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class AdminRouterSubscriberTest extends TestCase
 {
-    /** @var AdminRouterSubscriber */
-    private $subscriber;
+    private AdminRouterSubscriber $subscriber;
 
     protected function setUp(): void
     {

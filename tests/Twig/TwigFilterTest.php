@@ -19,7 +19,7 @@ final class TwigFilterTest extends KernelTestCase
         $this->twig = $this->getContainer()->get(Environment::class);
     }
 
-    public function myFilter($number, int $decimals, string $decPoint, string $thousandsSep)
+    public function myFilter($number, int $decimals, string $decPoint, string $thousandsSep): string
     {
         return number_format($number, $decimals, $decPoint, $thousandsSep);
     }
