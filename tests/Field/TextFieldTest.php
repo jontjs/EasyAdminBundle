@@ -138,10 +138,6 @@ class TextFieldTest extends AbstractFieldTest
 
     public function testBackedEnumValue(): void
     {
-        if (\PHP_VERSION_ID < 80100) {
-            $this->markTestSkipped('PHP 8.1 or higher is required to run this test.');
-        }
-
         // create a backed enum for testing
         $enumValue = Fixtures\ChoiceField\StatusBackedEnum::Draft;
         $field = TextField::new('foo');
