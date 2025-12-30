@@ -9,9 +9,8 @@ $finder = PhpCsFixer\Finder::create()
     ->name('*.php')
 ;
 
-$config = new PhpCsFixer\Config();
-
-return $config
+return (new PhpCsFixer\Config())
+    ->setParallelConfig(PhpCsFixer\Runner\Parallel\ParallelConfigFactory::detect())
     ->setUsingCache(true)
     ->setRiskyAllowed(true)
     ->setFinder($finder)
