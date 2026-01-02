@@ -7,6 +7,11 @@ export default class Autocomplete {
             return;
         }
 
+        // TomSelect only works with <select> and <input> elements
+        if ('SELECT' !== element.tagName && 'INPUT' !== element.tagName) {
+            return;
+        }
+
         const autocompleteEndpointUrl = element.getAttribute('data-ea-autocomplete-endpoint-url');
         if (null !== autocompleteEndpointUrl) {
             return this.#createAutocompleteWithRemoteData(element, autocompleteEndpointUrl);
