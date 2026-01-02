@@ -99,7 +99,7 @@ final class CollectionConfigurator implements FieldConfiguratorInterface
 
         $collectionItemsAsText = [];
         foreach ($field->getValue() ?? [] as $item) {
-            if (!\is_string($item) && !(\is_object($item) && method_exists($item, '__toString'))) {
+            if (!\is_string($item) && !$item instanceof \Stringable) {
                 return $this->countNumElements($field->getValue());
             }
 

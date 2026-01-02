@@ -350,7 +350,7 @@ final class AdminUrlGenerator implements \Stringable, AdminUrlGeneratorInterface
         }
 
         if (\is_object($paramValue)) {
-            if (method_exists($paramValue, '__toString')) {
+            if ($paramValue instanceof \Stringable) {
                 $paramValue = (string) $paramValue;
             } else {
                 throw new \InvalidArgumentException(sprintf('The object passed as the value of the "%s" parameter must implement the "__toString()" method to allow using its value as a route parameter.', $paramName));
