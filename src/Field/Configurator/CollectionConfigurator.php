@@ -107,8 +107,9 @@ final class CollectionConfigurator implements FieldConfiguratorInterface
         }
 
         $isDetailAction = Action::DETAIL === $context->getCrud()->getCurrentAction();
+        $maxLength = $field->getCustomOption(CollectionField::OPTION_MAX_LENGTH) ?? ($isDetailAction ? 512 : 32);
 
-        return u(', ')->join($collectionItemsAsText)->truncate($isDetailAction ? 512 : 32, '…')->toString();
+        return u(', ')->join($collectionItemsAsText)->truncate($maxLength, '…')->toString();
     }
 
     private function countNumElements(mixed $collection): int
