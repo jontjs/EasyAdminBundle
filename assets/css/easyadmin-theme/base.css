@@ -197,6 +197,7 @@ body:not(.ea-content-width-full) .content-wrapper {
     transition: left 0.3s;
     z-index: calc(var(--zindex-modal-backdrop) + 1);
     inline-size: calc(2 * 20px + var(--sidebar-max-width));
+    overscroll-behavior: contain; /* needed to not scroll the entire page when reaching the end of this element scroll */
 }
 @media (min-width: 992px) {
     .sidebar {
