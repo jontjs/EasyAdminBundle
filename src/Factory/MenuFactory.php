@@ -35,7 +35,7 @@ final class MenuFactory implements MenuFactoryInterface
     }
 
     /**
-     * @param MenuItemInterface[] $menuItems
+     * @param array<MenuItemDto|MenuItemInterface> $menuItems
      */
     public function createMainMenu(array $menuItems): MainMenuDto
     {
