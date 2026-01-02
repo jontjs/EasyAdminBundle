@@ -9,8 +9,8 @@ use EasyCorp\Bundle\EasyAdminBundle\Contracts\Controller\CrudControllerInterface
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Translation\TranslatableMessageBuilder;
 use Symfony\Component\ExpressionLanguage\Expression;
-use function Symfony\Component\Translation\t;
 use Symfony\Contracts\Translation\TranslatableInterface;
+use function Symfony\Component\Translation\t;
 
 /**
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>

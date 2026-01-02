@@ -5,9 +5,9 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Tests\Field;
 use EasyCorp\Bundle\EasyAdminBundle\Field\Configurator\SlugConfigurator;
 use EasyCorp\Bundle\EasyAdminBundle\Field\SlugField;
 use EasyCorp\Bundle\EasyAdminBundle\Form\Type\SlugType;
-use function Symfony\Component\Translation\t;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatableInterface;
+use function Symfony\Component\Translation\t;
 
 class SlugFieldTest extends AbstractFieldTest
 {

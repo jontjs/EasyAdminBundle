@@ -12,10 +12,10 @@ use EasyCorp\Bundle\EasyAdminBundle\Translation\TranslatableChoiceMessage;
 use EasyCorp\Bundle\EasyAdminBundle\Translation\TranslatableChoiceMessageCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EnumType;
-use function Symfony\Component\String\u;
-use function Symfony\Component\Translation\t;
 use Symfony\Component\Translation\TranslatableMessage;
 use Symfony\Contracts\Translation\TranslatableInterface;
+use function Symfony\Component\String\u;
+use function Symfony\Component\Translation\t;
 
 /**
  * @author Javier Eguiluz <javier.eguiluz@gmail.com>
