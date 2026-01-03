@@ -238,7 +238,7 @@ final class AssociationConfigurator implements FieldConfiguratorInterface
             return null;
         }
 
-        if (method_exists($entityInstance, '__toString')) {
+        if ($entityInstance instanceof \Stringable) {
             return (string) $entityInstance;
         }
 

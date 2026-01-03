@@ -279,7 +279,7 @@ final class CrudDto
         }
 
         if (null !== $entityInstance) {
-            if (method_exists($entityInstance, '__toString')) {
+            if ($entityInstance instanceof \Stringable) {
                 $entityAsString = (string) $entityInstance;
 
                 if ('' !== $entityAsString) {

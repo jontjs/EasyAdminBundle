@@ -55,7 +55,7 @@ final class EntityDto implements \Stringable
             return '';
         }
 
-        if (method_exists($this->instance, '__toString')) {
+        if ($this->instance instanceof \Stringable) {
             return (string) $this->instance;
         }
 
