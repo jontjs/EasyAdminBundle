@@ -576,9 +576,6 @@ a.user-menu-wrapper .user-details:hover {
     opacity: 1;
 }
 
-.content-header .datagrid-filters {
-    margin-inline-end: 10px;
-}
 .content-header .global-actions,
 .content-header .page-actions {
     justify-content: right;
