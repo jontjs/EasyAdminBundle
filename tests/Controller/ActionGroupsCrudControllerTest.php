@@ -65,6 +65,22 @@ class ActionGroupsCrudControllerTest extends AbstractCrudTestCase
         static::assertGreaterThanOrEqual(2, $splitDropdown->filter('.dropdown-menu .dropdown-item')->count(), 'Split dropdown should have at least 2 actions');
     }
 
+    public function testSplitButtonMainActionIconInIndexPage(): void
+    {
+        $crawler = $this->client->request('GET', $this->generateIndexUrl());
+
+        // find the split button for group2global which has an icon on the main action
+        $splitDropdown = $crawler->filter('.action-group[data-action-group-name="group2global"]');
+        static::assertCount(1, $splitDropdown, 'Should have group2global action group');
+
+        $mainAction = $splitDropdown->filter('[data-action-group-name-main-action]');
+        static::assertCount(1, $mainAction, 'Split dropdown should have a main action');
+
+        // verify the main action has the icon
+        $icon = $mainAction->filter('i.fa-star, .btn-icon i.fa-star');
+        static::assertCount(1, $icon, 'Main action in split button should display its icon');
+    }
+
     public function testActionGroupsWithHeadersAndDividersInIndexPage(): void
     {
         $crawler = $this->client->request('GET', $this->generateIndexUrl());

@@ -50,7 +50,7 @@ class ActionGroupsCrudController extends AbstractCrudController
             ->addAction(Action::new('action2', 'Action 2')->linkToCrudAction('delete'));
         $group2Global = ActionGroup::new('group2global', 'Global Action Group 2')
             ->createAsGlobalActionGroup()
-            ->addMainAction(Action::new('main_action', 'Main Action')->linkToCrudAction('aGlobalAction'))
+            ->addMainAction(Action::new('main_action', 'Main Action')->setIcon('fa fa-star')->linkToCrudAction('aGlobalAction'))
             ->addAction(Action::new('action1', 'Action 1')->linkToCrudAction('aGlobalAction'))
             ->addAction(Action::new('action2', 'Action 2')->linkToCrudAction('aGlobalAction'));
 
