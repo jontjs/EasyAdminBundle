@@ -59,6 +59,9 @@
         "symfony/web-link": "^5.4|^6.0|^7.0|^8.0",
         "vincentlanglet/twig-cs-fixer": "^3.10"
     },
+    "conflict": {
+        "symfony/error-handler": "<5.4.35"
+    },
     "config": {
         "sort-packages": true,
         "allow-plugins": {
