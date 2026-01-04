@@ -4,9 +4,52 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Tests\Config;
 
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Translation\TranslatableMessage;
 
 class CrudTest extends TestCase
 {
+    public function testAskConfirmationOnBatchActionsDefaultValue(): void
+    {
+        $crudConfig = Crud::new();
+
+        $this->assertTrue($crudConfig->getAsDto()->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsDisabled(): void
+    {
+        $crudConfig = Crud::new();
+        $crudConfig->askConfirmationOnBatchActions(false);
+
+        $this->assertFalse($crudConfig->getAsDto()->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsEnabled(): void
+    {
+        $crudConfig = Crud::new();
+        $crudConfig->askConfirmationOnBatchActions(false);
+        $crudConfig->askConfirmationOnBatchActions(true);
+
+        $this->assertTrue($crudConfig->getAsDto()->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsWithCustomMessage(): void
+    {
+        $crudConfig = Crud::new();
+        $customMessage = 'Custom confirmation for %action_name% on %num_items% items';
+        $crudConfig->askConfirmationOnBatchActions($customMessage);
+
+        $this->assertSame($customMessage, $crudConfig->getAsDto()->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsWithTranslatableMessage(): void
+    {
+        $crudConfig = Crud::new();
+        $translatableMessage = new TranslatableMessage('batch.confirm');
+        $crudConfig->askConfirmationOnBatchActions($translatableMessage);
+
+        $this->assertSame($translatableMessage, $crudConfig->getAsDto()->askConfirmationOnBatchActions());
+    }
+
     public function testAddFormTheme(): void
     {
         $crudConfig = Crud::new();

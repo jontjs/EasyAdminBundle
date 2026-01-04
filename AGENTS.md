@@ -94,6 +94,7 @@ Welcome, 🤖 AI assistant! Please follow these guidelines when contributing to 
 - Use the custom Twig components defined in templates/components/ when needed
 - Follow accessibility best practices (e.g. `aria-*, semantic tags, labels)
 - Use trans for all user-facing strings; never hardcode text in templates
+- All translations must be done in Twig templates using `|trans`; avoid translation logic in PHP code (use TranslatableInterface objects that will be translated in templates)
 
 ## JavaScript
 
