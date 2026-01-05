@@ -30,13 +30,13 @@ class Project implements \Stringable
     /**
      * @var Collection<int, ProjectIssue>
      */
-    #[ORM\OneToMany(targetEntity: ProjectIssue::class, mappedBy: 'project', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: ProjectIssue::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $projectIssues;
 
     /**
      * @var Collection<int, Developer>
      */
-    #[ORM\OneToMany(targetEntity: Developer::class, mappedBy: 'favouriteProject')]
+    #[ORM\OneToMany(mappedBy: 'favouriteProject', targetEntity: Developer::class)]
     private Collection $favouriteProjectOf;
 
     /**
