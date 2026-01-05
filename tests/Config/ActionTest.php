@@ -120,4 +120,54 @@ class ActionTest extends TestCase
         }];
         yield [t('Edit')];
     }
+
+    public function testGetAsConfigObjectPreservesLinkToUrl(): void
+    {
+        $action = Action::new('my_action')
+            ->linkToUrl('https://example.com');
+
+        $dto = $action->getAsDto();
+        $restoredAction = $dto->getAsConfigObject();
+        $restoredDto = $restoredAction->getAsDto();
+
+        $this->assertSame('https://example.com', $restoredDto->getUrl());
+    }
+
+    public function testGetAsConfigObjectPreservesCallableUrl(): void
+    {
+        $callable = fn () => 'https://dynamic.example.com';
+        $action = Action::new('my_action')
+            ->linkToUrl($callable);
+
+        $dto = $action->getAsDto();
+        $restoredAction = $dto->getAsConfigObject();
+        $restoredDto = $restoredAction->getAsDto();
+
+        $this->assertSame($callable, $restoredDto->getUrl());
+    }
+
+    public function testGetAsConfigObjectPreservesLinkToRoute(): void
+    {
+        $action = Action::new('my_action')
+            ->linkToRoute('my_route', ['param1' => 'value1']);
+
+        $dto = $action->getAsDto();
+        $restoredAction = $dto->getAsConfigObject();
+        $restoredDto = $restoredAction->getAsDto();
+
+        $this->assertSame('my_route', $restoredDto->getRouteName());
+        $this->assertSame(['param1' => 'value1'], $restoredDto->getRouteParameters());
+    }
+
+    public function testGetAsConfigObjectPreservesLinkToCrudAction(): void
+    {
+        $action = Action::new('my_action')
+            ->linkToCrudAction('edit');
+
+        $dto = $action->getAsDto();
+        $restoredAction = $dto->getAsConfigObject();
+        $restoredDto = $restoredAction->getAsDto();
+
+        $this->assertSame('edit', $restoredDto->getCrudActionName());
+    }
 }
