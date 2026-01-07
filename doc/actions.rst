@@ -82,7 +82,7 @@ Removing Actions
 ----------------
 
 Removing actions makes them unavailable in the interface, so the user can't
-click on buttons/links to run those actions. However, users can *hack* the URL
+click on buttons/links to run those actions. However, users can modify the URL
 to run the action. To fully disable an action, use the ``disable()``
 method explained later::
 
@@ -176,7 +176,7 @@ of payments for the administered invoice::
 Displaying Actions Conditionally
 --------------------------------
 
-Some actions must displayed only when some conditions met. For example, a
+Some actions must be displayed only when some conditions met. For example, a
 "View Invoice" action may be displayed only when the order status is "paid".
 Use the ``displayIf()`` method to configure when the action should be visible
 to users::
@@ -205,7 +205,7 @@ Disabling Actions
 -----------------
 
 Disabling an action means that it's not displayed in the interface and the user
-can't run the action even if they *hack* the URL. If they try to do that, they
+can't run the action even if they modify the URL. If they try to do that, they
 will see a "Forbidden Action" exception.
 
 Actions are disabled globally, you cannot disable them per page::
@@ -517,7 +517,7 @@ that will represent the action::
         ->renderAsLink()
 
         // by default, actions are rendered as `<button type="submit" ...>` elements.
-        // this method allows to change it and use a `<button type="button" ...>` element.
+        // this method allows you to change it and use a `<button type="button" ...>` element.
         ->renderAsButton('submit')
         // also available as EasyCorp\Bundle\EasyAdminBundle\Twig\Component\Option\ButtonType
         ->renderAsButton(ButtonType::Submit)
@@ -781,7 +781,7 @@ Integrating Symfony Actions
 If the action logic is small and directly related to the backend, it's OK to add
 it to the :doc:`CRUD controller </crud>` as a quick and simple way of integrating
 it into your EasyAdmin backend. However, sometimes the logic is too complex or
-also used in other parts of the Symfony application, so you can't move it into
+also used in other parts of the Symfony application, so you can't move that logic into
 the CRUD controller. This section explains how to integrate an existing Symfony
 controller action in EasyAdmin so you can reuse the backend layout, menu, and other features.
 
