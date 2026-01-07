@@ -20,7 +20,6 @@
             <directory>tests/</directory>
             <exclude>tests/Controller/PrettyUrls/</exclude>
             <exclude>tests/Form/Filter/</exclude>
-            <exclude>tests/Form/Type/EasyAdminAutocompleteTypeTest.php</exclude>
         </testsuite>
     </testsuites>
 
