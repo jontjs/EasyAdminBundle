@@ -78,6 +78,7 @@ final class CrudDto
     private ?string $contentWidth = null;
     private ?string $sidebarWidth = null;
     private bool $hideNullValues = false;
+    private bool|string|TranslatableInterface $askConfirmationOnBatchActions = true;
 
     public function __construct()
     {
@@ -596,5 +597,15 @@ final class CrudDto
     public function hideNullValues(bool $hide): void
     {
         $this->hideNullValues = $hide;
+    }
+
+    public function askConfirmationOnBatchActions(): bool|string|TranslatableInterface
+    {
+        return $this->askConfirmationOnBatchActions;
+    }
+
+    public function setAskConfirmationOnBatchActions(bool|string|TranslatableInterface $askConfirmation): void
+    {
+        $this->askConfirmationOnBatchActions = $askConfirmation;
     }
 }

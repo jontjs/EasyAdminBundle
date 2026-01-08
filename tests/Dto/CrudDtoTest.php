@@ -4,9 +4,52 @@ namespace EasyCorp\Bundle\EasyAdminBundle\Tests\Dto;
 
 use EasyCorp\Bundle\EasyAdminBundle\Dto\CrudDto;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\Translation\TranslatableMessage;
 
 class CrudDtoTest extends TestCase
 {
+    public function testAskConfirmationOnBatchActionsDefaultValue(): void
+    {
+        $crudDto = new CrudDto();
+
+        $this->assertTrue($crudDto->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsWithBooleanFalse(): void
+    {
+        $crudDto = new CrudDto();
+        $crudDto->setAskConfirmationOnBatchActions(false);
+
+        $this->assertFalse($crudDto->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsWithBooleanTrue(): void
+    {
+        $crudDto = new CrudDto();
+        $crudDto->setAskConfirmationOnBatchActions(false);
+        $crudDto->setAskConfirmationOnBatchActions(true);
+
+        $this->assertTrue($crudDto->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsWithCustomMessage(): void
+    {
+        $crudDto = new CrudDto();
+        $customMessage = 'Are you sure you want to apply %action_name% to %num_items% items?';
+        $crudDto->setAskConfirmationOnBatchActions($customMessage);
+
+        $this->assertSame($customMessage, $crudDto->askConfirmationOnBatchActions());
+    }
+
+    public function testAskConfirmationOnBatchActionsWithTranslatableMessage(): void
+    {
+        $crudDto = new CrudDto();
+        $translatableMessage = new TranslatableMessage('batch.confirm.message');
+        $crudDto->setAskConfirmationOnBatchActions($translatableMessage);
+
+        $this->assertSame($translatableMessage, $crudDto->askConfirmationOnBatchActions());
+    }
+
     /**
      * @dataProvider provideLabels
      *

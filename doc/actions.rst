@@ -773,6 +773,58 @@ If you do that, EasyAdmin will inject a DTO with all the batch action data::
     also inject Symfony's ``Request`` object to get all the raw submitted batch data
     (e.g. ``$request->request->all('batchActionEntityIds')``).
 
+Batch Action Confirmation
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+By default, batch actions display a confirmation modal before execution to prevent
+accidental operations on multiple items. You can configure this behavior at the
+dashboard level (for all CRUD controllers) or at the individual CRUD controller
+level (to override the dashboard default).
+
+To disable the confirmation modal entirely::
+
+    namespace App\Controller\Admin;
+
+    use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+    use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+
+    class ProductCrudController extends AbstractCrudController
+    {
+        // ...
+
+        public function configureCrud(Crud $crud): Crud
+        {
+            return $crud
+                // batch actions will be executed immediately without confirmation
+                ->askConfirmationOnBatchActions(false)
+            ;
+        }
+    }
+
+You can also customize the confirmation message by passing a string instead of
+a boolean. The message supports two placeholders: ``%action_name%`` (the name of
+the batch action being executed) and ``%num_items%`` (the number of selected items)::
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->askConfirmationOnBatchActions(
+                'Are you sure you want to apply "%action_name%" to %num_items% products?'
+            )
+        ;
+    }
+
+For translatable messages, you can pass a ``TranslatableInterface`` object::
+
+    use function Symfony\Component\Translation\t;
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->askConfirmationOnBatchActions(t('batch.confirm.message'))
+        ;
+    }
+
 .. _actions-integrating-symfony:
 
 Integrating Symfony Actions
